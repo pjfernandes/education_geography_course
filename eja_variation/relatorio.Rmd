@@ -1,0 +1,58 @@
+---
+title: "Expansão das escolas no Rio de Janeiro"
+author: "Pedro"
+date: "2023-04-20"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+library("tmap")
+library("raster")
+library("sp")
+
+setwd("/home/uff/Área de Trabalho/arquivos/eja_variation/shape")
+
+#rj <- shapefile("shape/RJ_Municipios_2022.shp")
+
+estaduais_2009 <- shapefile("result_end_rio_2009_publicas.shp")
+estaduais_2022 <- shapefile("result_end_rio_2022_publicas.shp")
+privadas_2009 <- shapefile("result_end_rio_2009_privadas.shp")
+privadas_2022 <- shapefile("result_end_rio_2022_privadas.shp")
+
+eja_estaduais_2009 <- shapefile("result_end_eja_rio_2009_estaduais.shp")
+eja_estaduais_2022 <- shapefile("result_end_eja_rio_2022_estaduais.shp")
+eja_privadas_2009 <- shapefile("result_end_eja_rio_2009_privadas.shp")
+eja_privadas_2022 <- shapefile("result_end_eja_rio_2022_privadas.shp")
+```
+
+## COMPARAÇÃO ESCOLAS PARTICULARES x ESTADUAIS (2009 - 2022)
+```{r, echo=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+
+tmap_mode("view")
+
+#COMPARAÇÃO ESCOLAS PARTICULARES x ESTADUAIS (2009 - 2022)
+fig_1 <- tm_shape(estaduais_2009, id="2009") + tm_dots("ID", palette="Reds") + #estaduais_2009
+  tm_shape(estaduais_2022) + tm_dots("ID", palette="Greens") + #estaduais_2022
+  tm_shape(privadas_2009) + tm_dots("ID", palette="Blues") + #privadas_2009
+  tm_shape(privadas_2022) + tm_dots("ID", palette="Oranges") #privadas_2022
+
+fig_1
+```
+
+## COMPARAÇÃO ESCOLAS PARTICULARES x ESTADUAIS COM EJA (2009 - 2022)
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+
+tmap_mode("view")
+
+#COMPARAÇÃO EJA (ESTADUAIS x PARTICULARES) (2009 - 2022)
+fig_2 <- tm_shape(eja_estaduais_2009, id="2009") + tm_dots("ID", palette="Reds") + #eja_estaduais_2009
+  tm_shape(eja_estaduais_2009) + tm_dots("ID", palette="Greens") + #eja_estaduais_2009
+  tm_shape(eja_privadas_2009) + tm_dots("ID", palette="Blues") + #eja_privadas_2009
+  tm_shape(eja_privadas_2022) + tm_dots("ID", palette="Oranges") #eja_privadas_2022
+
+fig_2
+```
